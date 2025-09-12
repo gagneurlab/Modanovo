@@ -1,0 +1,138 @@
+###
+# Configuration file.
+# Blank entries are interpreted as "None".
+###
+
+###
+# The following parameters can be modified when running inference or
+# when fine-tuning an existing model.
+###
+
+# Max absolute difference allowed with respect to observed precursor m/z
+# Predictions outside the tolerance range are assigned a negative peptide score.
+precursor_mass_tol: 50  # ppm
+# Isotopes to consider when comparing predicted and observed precursor m/z's
+isotope_error_range: [0, 1]
+# The minimum length of predicted peptides
+min_peptide_len: 6
+# Number of spectra in one inference batch
+predict_batch_size: 2048
+# Number of beams used in beam search
+n_beams: 1
+# Number of PSMs for each spectrum
+top_match: 1
+# The hardware accelerator to use. Must be one of:
+# "cpu", "gpu", "tpu", "ipu", "hpu", "mps", or "auto"
+accelerator: "auto"
+# The devices to use. Can be set to a positive number int,
+# or the value -1 to indicate all available devices should be used,
+# If left empty, the appropriate number will be automatically
+# selected for automatic selected on the chosen accelerator.
+devices:
+# Path to saved datasets
+lance_dir_name: 
+# Store correct sequences to prediction output. 
+# This only works when sequences are in proforma syntax
+save_correct_seq: False
+
+###
+# The following parameters should only be modified if you are training a new
+# model from scratch.
+###
+
+# Random seed to ensure reproducible results
+random_seed: 454
+
+# OUTPUT OPTIONS
+# Logging frequency in training steps
+n_log: 1
+# Tensorboard directory to use for keeping track of training metrics
+tb_summarywriter:
+# Save the top k model checkpoints during training. -1 saves all, and
+# leaving this field empty saves none.
+save_top_k: 
+# Path to saved checkpoints
+model_save_folder_path: ""
+# Model validation and checkpointing frequency in training steps
+val_check_interval: 50_000
+# expanded residues not contained in tokenizer
+expanded_residues: 
+  "E[-18.011]": 111.03202800000001
+  "K[+114.043]": 242.13789000000003
+  "K[+42.011]": 170.105528
+  "K[+14.016]": 142.110613
+  "Q[-17.027]": 111.03202900000001
+  "R[+14.016]": 170.116761
+  "R[+0.984]": 157.085127
+  "S[+79.966]": 166.998359
+  "S[+203.079]": 290.111401
+  "T[+79.966]": 181.01400999999998
+  "T[+203.079]": 304.127052
+  "Y[+79.966]": 243.02966
+
+# Set to true if training should start from a model
+# trained only with default residues
+train_from_default_residues: True
+
+
+# SPECTRUM PROCESSING OPTIONS
+# Number of the most intense peaks to retain, any remaining peaks are discarded
+n_peaks: 150
+# Min peak m/z allowed, peaks with smaller m/z are discarded
+min_mz: 50.0
+# Max peak m/z allowed, peaks with larger m/z are discarded
+max_mz: 2500.0
+# Min peak intensity allowed, less intense peaks are discarded
+min_intensity: 0.01
+# Max absolute m/z difference allowed when removing the precursor peak
+remove_precursor_tol: 2.0  # Da
+# Max precursor charge allowed, spectra with larger charge are skipped
+max_charge: 10
+
+# MODEL ARCHITECTURE OPTIONS
+# Dimensionality of latent representations, i.e. peak embeddings
+dim_model: 512
+# Number of attention heads
+n_head: 8
+# Dimensionality of fully connected layers
+dim_feedforward: 1024
+# Number of transformer layers in spectrum encoder and peptide decoder
+n_layers: 9
+# Dropout rate for model weights
+dropout: 0.1
+# Number of dimensions to use for encoding peak intensity
+# Projected up to ``dim_model`` by default and summed with the peak m/z encoding
+dim_intensity:
+# Max decoded peptide length
+max_length: 100
+# Learning rate for weight updates during training
+learning_rate: 1e-5
+# Regularization term for weight updates
+weight_decay: 1e-5
+# Amount of label smoothing when computing the training loss
+train_label_smoothing: 0.01
+
+# TRAINING/INFERENCE OPTIONS
+# Number of spectra in one training batch
+train_batch_size: 32
+# Number of validation steps to run before training begins
+num_sanity_val_steps: 0
+# Calculate peptide and amino acid precision during training. this
+# is expensive, so we recommend against it.
+calculate_precision: False
+
+# Shuffling configurations for train set
+shuffle: True
+buffer_size: 100_000
+
+accumulate_grad_batches: 4
+gradient_clip_val: 2.
+gradient_clip_algorithm: "norm"
+precision: "bf16-mixed" 
+# Number of warmup epochs for learning rate scheduler
+warm_up_epochs: 1
+max_epochs: 50
+
+resume_training_from : #'last', 'best', 'path'
+early_stopping_patience: 30
+discarded_residue_predictions: 

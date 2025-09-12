@@ -1,0 +1,96 @@
+[build-system]
+requires = ["setuptools>=61", "wheel", "setuptools_scm[toml]>=3.4"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modanovo"
+authors = [
+    {name = "Daniela Klaproth-Andrade", email = "daniela.andrade@tum.de"},
+]
+description = ""
+license = {text = "Apache 2.0"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "appdirs",
+    "lightning>=2.0",
+    "click",
+    #"depthcharge-ms>=0.2.3,<0.3.0",
+    "natsort",
+    "numpy",
+    "pandas",
+    "psutil",
+    "PyGithub",
+    "PyYAML",
+    "requests",
+    "rich-click>=1.6.1",
+    "scikit-learn",
+    "spectrum_utils",
+    "tensorboard",
+    "torch>=2.1",
+    "tqdm",
+]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+#[project.urls]
+#Homepage = ""
+#Documentation = ""
+
+[project.optional-dependencies]
+docs = [
+    "sphinx>=4.5.0",
+    "myst-parser>=0.18.1",
+    "sphinx-book-theme>=0.3.3"
+]
+dev = [
+    "pre-commit>=2.7.1",
+    "black>=19.10b0",
+    "ppx",
+    "psims",
+    "pyteomics",
+    "pytest",
+]
+
+[project.scripts]
+modanovo = "modanovo.modanovo:main"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["docs", "tests", "sample_data"]
+
+[tool.setuptools_scm]
+
+[tool.black]
+line-length = 79
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
