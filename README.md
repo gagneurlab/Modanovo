@@ -94,7 +94,7 @@ Assuming you’ve installed Modanovo and have a model checkpoint:
 
 ```bash
 # from the repo root
-modanovo inference \
+modanovo sequence \
   -c modanovo/config.yaml \
   -m path/to/casanovo_or_modanovo_weights.ckpt \
   -o outputs/predictions.mztab
