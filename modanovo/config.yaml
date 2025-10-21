@@ -125,8 +125,8 @@ calculate_precision: False
 shuffle: True
 buffer_size: 100_000
 
-accumulate_grad_batches: 4
-gradient_clip_val: 2.
+accumulate_grad_batches: 1
+gradient_clip_val: 0
 gradient_clip_algorithm: "norm"
 precision: "bf16-mixed" 
 # Number of warmup epochs for learning rate scheduler
