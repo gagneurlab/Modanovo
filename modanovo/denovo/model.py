@@ -378,18 +378,18 @@ class Spec2Pep(pl.LightningModule):
             ) = self._finish_beams(tokens, precursors, step)
             # Cache peptide predictions from the finished beams (but not the
             # discarded beams).
+            finished_beams |= discarded_beams
             self._cache_finished_beams(
                 tokens,
                 scores,
                 step,
-                finished_beams & ~discarded_beams,
+                finished_beams,
                 beam_fits_precursor,
                 pred_cache,
             )
 
             # Stop decoding when all current beams have been finished.
             # Continue with beams that have not been finished and not discarded.
-            finished_beams |= discarded_beams
             if finished_beams.all():
                 break
             # Update the scores.
